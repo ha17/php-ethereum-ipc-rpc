@@ -19,7 +19,9 @@ A PHP interface to the geth JSON-RPC API.  Forked from [btelle/ethereum-php](htt
     $ethereum  = new Ethereum($transport);
     echo $ethereum->net_version() . PHP_EOL;
 
-    // localtion of IPC for Parity on my Mac: ~/Library/Application\ Support/io.parity.ethereum/jsonrpc.ipc
+    // Note: you must start parity or get before the .ipc file is created. It's a unix socket.
+    // location of IPC for Parity on my Mac: ~/Library/Application\ Support/io.parity.ethereum/jsonrpc.ipc
+    // location of IPC for Geth on my Mac: ~/Library/Ethereum/geth.ipc
 
 ## Function documentation
 For documentation on functionality, see the [Ethereum RPC documentation](http://ethereum.gitbooks.io/frontier-guide/content/rpc.html)
@@ -28,6 +30,6 @@ For documentation on functionality, see the [Ethereum RPC documentation](http://
 See `tests/` directory to run phpunit tests.
 
 ## Todo
-Use curl for transport by default (https://github.com/johnstevenson/jsonrpc/wiki/Advanced-functionality#client-transport)
-Implement: https://github.com/ethereum/web3.js/blob/f8aa391351166316c81d7a70dcc95d695c8005db/lib/utils/utils.js
-Implement IPC
+  # Implement Contract interaction
+  # Implement: https://github.com/ethereum/web3.js/blob/f8aa391351166316c81d7a70dcc95d695c8005db/lib/utils/utils.js
+  # Use curl for RPC transport by default (https://github.com/johnstevenson/jsonrpc/wiki/Advanced-functionality#client-transport)

@@ -3,12 +3,23 @@ A PHP interface to the geth JSON-RPC API.  Forked from [btelle/ethereum-php](htt
 ## Composer Installation
     composer require 'ha17/ethereum-php @dev' 
 
-## Usage
-    // create a new object
-    $ethereum = new Ethereum('127.0.0.1:8545');
+## Usage RPC
+    use Ethereum\Ethereum;
+    use Ethereum\EthRpc;
 
-    // do your thing
+    $transport = new EthRpc('127.0.0.1:8545');
+    $ethereum  = new Ethereum($transport);
     echo $ethereum->net_version() . PHP_EOL;
+
+## Usage IPC
+    use Ethereum\Ethereum;
+    use Ethereum\EthIpc;
+
+    $transport = new EthIpc('/path/to/ethereum.ipc'); //  see below
+    $ethereum  = new Ethereum($transport);
+    echo $ethereum->net_version() . PHP_EOL;
+
+    // localtion of IPC for Parity on my Mac: ~/Library/Application\ Support/io.parity.ethereum/jsonrpc.ipc
 
 ## Function documentation
 For documentation on functionality, see the [Ethereum RPC documentation](http://ethereum.gitbooks.io/frontier-guide/content/rpc.html)

@@ -2,6 +2,9 @@
 
 namespace Ethereum;
 
+use Exceptions;
+use \ErrorException;
+
 /**
  * Ethereum JSON-RPC and IPC API interface
  *
@@ -18,12 +21,12 @@ class Ethereum
         $this->transport = $transport;
     }
 
-    private function etherRequest($method, $params = array())
+    public function encodeHex($input)
     {
-        return $this->transport->etherRequest($method, $params);
+        return '0x' . dechex((int)$input);
     }
 
-    private function decodeHex($input)
+    public function decodeHex($input)
     {
         if (substr($input, 0, 2) == '0x') {
             $input = substr($input, 2);
@@ -36,14 +39,48 @@ class Ethereum
         return $input;
     }
 
+    private function strHex($string)
+    {
+        $hexstr = unpack('H*', $string);
+        return array_shift($hexstr);
+    }
+
     public function web3_clientVersion()
     {
         return $this->etherRequest(__FUNCTION__);
     }
 
+    public function getFunctionCall($func, $value)
+    {
+        return $this->truncateHexedFunction($this->web3_sha3($func)) . $this->pad($this->strHex($value));
+    }
+
     public function web3_sha3($input)
     {
+        if (substr($input, 0, 2) <> '0x') {
+            $input = '0x' . $this->strHex($input);
+        }
+
         return $this->etherRequest(__FUNCTION__, array($input));
+    }
+
+    public function truncateHexedFunction($input)
+    {
+        if (substr($input, 0, 2) <> '0x') {
+            return '0x' . substr($input, 0, 8);
+        }
+
+        return substr($input, 0, 10); // already has 0x
+    }
+
+    public function pad($input)
+    {
+        return str_pad($input, 64, '00', STR_PAD_LEFT);
+    }
+
+    public function padHex($input)
+    {
+        return '0x' . $this->pad($input);
     }
 
     public function net_version()
@@ -168,9 +205,9 @@ class Ethereum
         }
     }
 
-    public function eth_call($message, $block)
+    public function eth_call($message, $block = 'latest')
     {
-        if (!is_a($message, 'Ethereum_Message')) {
+        if (!is_a($message, Message::class)) {
             throw new ErrorException('Message object expected');
         } else {
             return $this->etherRequest(__FUNCTION__, $message->toArray());
@@ -179,7 +216,7 @@ class Ethereum
 
     public function eth_estimateGas($message, $block)
     {
-        if (!is_a($message, 'Ethereum_Message')) {
+        if (!is_a($message, Message::class)) {
             throw new ErrorException('Message object expected');
         } else {
             return $this->etherRequest(__FUNCTION__, $message->toArray());
@@ -379,5 +416,10 @@ class Ethereum
     public function shh_getMessages($id)
     {
         return $this->etherRequest(__FUNCTION__, array($id));
+    }
+
+    private function etherRequest($method, $params = array())
+    {
+        return $this->transport->etherRequest($method, $params);
     }
 }

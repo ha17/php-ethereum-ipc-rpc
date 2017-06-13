@@ -35,9 +35,9 @@ class Transaction
                 'to'=>$this->to,
                 'gas'=>$this->gas,
                 'gasPrice'=>$this->gasPrice,
-                'value'=>$this->value,
+//                'value'=>$this->value,
                 'data'=>$this->data,
-                'nonce'=>$this->nonce
+ //               'nonce'=>$this->nonce
             )
         );
     }

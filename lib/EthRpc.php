@@ -3,6 +3,7 @@
 namespace Ethereum;
 
 use JsonRpc\Client as JsonRpcClient;
+use Exceptions;
 
 /**
  * Ethereum JSON-RPC and IPC API interface

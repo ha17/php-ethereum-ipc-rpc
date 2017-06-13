@@ -3,6 +3,7 @@
 namespace Ethereum;
 
 use JsonRpc\Client as JsonRpcClient;
+use Ethereum\Exceptions;
 
 /**
  * Ethereum JSON-RPC and IPC API interface
@@ -34,14 +35,16 @@ class EthIpc implements EthereumTransport
     {
         $this->connectSocket();
         $msg = $this->createMessage($method, $params);
-        // print_r($msg, true);
-        //die(__FILE__ . ' ' . __LINE__ . print_r($msg, true));
+print_r($msg);
         $this->writeToSocket($msg);
         $jsonResult = $this->readFromSocket();
         $json = json_decode($jsonResult);
-        // die(__FILE__ . ' ' . __LINE__ . print_r($result, true));
-        //$result = null;
+
         $this->closeSocket();
+
+        if (isset($json->error)) {
+            throw new Exceptions\RpcException('IPC Result Error: ' . $json->error->message);
+        }
 
         return $json->result;
     }
@@ -63,7 +66,7 @@ class EthIpc implements EthereumTransport
         $json->jsonrpc = '2.0';
         $json->method  = $method;
         $json->params  = $params;
-        $json->id      = 1;
+        $json->id      = 1; // todo for batches, create an ordered ID system, see jsonrpc/jsonrpc
 
         return json_encode($json);
     }
@@ -71,8 +74,6 @@ class EthIpc implements EthereumTransport
     private function writeToSocket($msg)
     {
         socket_sendto($this->socket, $msg, strlen($msg), 0, $this->ipcFilePath, 0);
-        //socket_write($this->socket, $msg, strlen($msg));
-        //echo 'Last Error: ' .  socket_last_error();
     }
 
     private function readFromSocket()
@@ -82,15 +83,5 @@ class EthIpc implements EthereumTransport
         }
 
         return $buf;
-
-
-//         $toReturn = array();
-//         while ($buffer=socket_read($this->socket, 512, PHP_BINARY_READ)) {
-//             $toReturn[] = $buffer;
-//             echo '...' . $buffer . PHP_EOL;
-//             echo socket_last_error();
-//         }
-//  //die(__FILE__ . ' ' . __LINE__ . print_r($toReturn, true));
-//         return implode('', $toReturn);
     }
 }

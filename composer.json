@@ -1,6 +1,6 @@
 {
-    "name": "ha17/ethereum-php",
-    "description": "PHP SDK for interacting with the Ethereum API",
+    "name": "ha17/php-ethereum-ipc-rpc",
+    "description": "PHP SDK for interacting with the Ethereum API via IPC or RPC",
     "type": "library",
     "require": {
         "jsonrpc/jsonrpc": "^1.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a18f3c62521ca95efdbc85ec6084f28d",
+    "content-hash": "4ac8bae9dbb55cef713c1b71affbe4f6",
     "packages": [
         {
             "name": "jsonrpc/jsonrpc",
@@ -195,7 +195,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-04-12T18:52:22+00:00"
+            "time": "2017-04-12 18:52:22"
         },
         {
             "name": "phpdocumentor/reflection-common",

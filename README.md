@@ -1,4 +1,4 @@
-A PHP interface to the geth JSON-RPC API.  Forked from btelle/ethereum-php and updated.
+A PHP interface to the geth JSON-RPC API.  Forked from [btelle/ethereum-php](http://github.com/btelle/ethereum-php) and updated.
 
 ## Composer Installation
     composer require 'ha17/ethereum-php @dev' 

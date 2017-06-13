@@ -1,0 +1,49 @@
+<?php
+
+//$socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+$socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+$file   = "/Users/ha/jsonrpc.ipc";
+
+socket_connect($socket, $file);
+
+$msg = '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":1}';
+
+socket_sendto($socket, $msg, strlen($msg), 0, $file, 0);
+
+if (socket_recvfrom($socket, $buf, 64 * 1024, 0, $source) === false) {
+  echo "recv_from failed";
+}
+echo "received: [" . $buf . "]   from: [" . $source . "]\n";
+socket_close($socket);
+//unlink($file);
+
+exit;
+
+var_dump(socket_write($socket, $msg, strlen($msg))) . PHP_EOL;
+
+#echo socket_last_error($socket);
+
+while($buffer=socket_read($socket, 512, PHP_BINARY_READ)) {
+
+    if ($buffer == ' ' or trim($buffer) == '' or $buffer == "\0") {
+        echo "BREAKING 1" . PHP_EOL;
+        break;
+    }
+
+    if ($buffer == null or $buffer == false) {
+        socket_close($socket);
+        break;
+    }
+
+    if (socket_last_error($socket) != 0) {
+        echo "BREAKING 2" . PHP_EOL;
+        echo socket_strerror(socket_last_error($socket)) . PHP_EOL;
+        break;
+    }
+
+    echo "..." . $buffer . PHP_EOL;
+}
+
+echo "FOO!" . PHP_EOL;
+socket_close($socket);
+//unlink($file);

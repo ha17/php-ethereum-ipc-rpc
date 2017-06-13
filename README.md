@@ -33,3 +33,4 @@ See `tests/` directory to run phpunit tests.
   # Implement Contract interaction
   # Implement: https://github.com/ethereum/web3.js/blob/f8aa391351166316c81d7a70dcc95d695c8005db/lib/utils/utils.js
   # Use curl for RPC transport by default (https://github.com/johnstevenson/jsonrpc/wiki/Advanced-functionality#client-transport)
+  # Divorce tests from the running ethereum node

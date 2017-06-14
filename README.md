@@ -1,8 +1,6 @@
 A PHP interface to the geth JSON-RPC API.  Forked from [btelle/ethereum-php](http://github.com/btelle/ethereum-php) and updated.
 
-## Unstable Alpha
-I'm working through trying to get contracts set up and there is much unstable about this project. Please don't use it
-(yet) in a mission-critical project.
+## Unstable Alpha I'm working through trying to get contracts set up and there is much unstable about this project. Please don't use it (yet) in a mission-critical project.
 
 ## Composer Installation
     composer require 'ha17/ethereum-php @dev' 

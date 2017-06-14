@@ -35,7 +35,7 @@ class EthIpc implements EthereumTransport
     {
         $this->connectSocket();
         $msg = $this->createMessage($method, $params);
-print_r($msg);
+        #print_r($msg);
         $this->writeToSocket($msg);
         $jsonResult = $this->readFromSocket();
         $json = json_decode($jsonResult);

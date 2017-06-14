@@ -39,7 +39,7 @@ class Ethereum
         return $input;
     }
 
-    private function strHex($string)
+    public function strHex($string)
     {
         $hexstr = unpack('H*', $string);
         return array_shift($hexstr);
@@ -52,7 +52,8 @@ class Ethereum
 
     public function getFunctionCall($func, $value)
     {
-        return $this->truncateHexedFunction($this->web3_sha3($func)) . $this->pad($this->strHex($value));
+        #return $this->truncateHexedFunction($this->web3_sha3($func)) . $this->pad($this->strHex($value));
+        return $this->truncateHexedFunction($this->web3_sha3($func)) . $this->pad($value);
     }
 
     public function web3_sha3($input)
@@ -210,7 +211,9 @@ class Ethereum
         if (!is_a($message, Message::class)) {
             throw new ErrorException('Message object expected');
         } else {
-            return $this->etherRequest(__FUNCTION__, $message->toArray());
+            $params = $message->toArray();
+            $params[] = $block;
+            return $this->etherRequest(__FUNCTION__, $params);
         }
     }
 
